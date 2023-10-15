@@ -12,6 +12,7 @@
 - git init : initialisation de git
 - git status -s : etat d'un dossier 
 - git add 'nom du fichier' : pour "STAGER" / INDEXER un/des fichier
+- git restore --staged <fichier>
 - git reset nom du fichier : pour désindexder un fichier
 - git commit -m "un messge" : pour commiter/envoyé le fichier stager
 - git commit -a -m "un messge" : pour faire le stage et le commit d'un coup
@@ -98,6 +99,34 @@ git push -u origin MON_TAG : pour pousser un tag
 
 git push origne --tags : pousser tous les tags
 
+### Maitriser les modif
+git blame mon_fichier : pour avoir des informations sur les modif d'un fichier 
+
+### Sauvegarder temporairement / mettre de coté des modifications présent dans le work space
+Supposons je suis entrain de développer une fonctionalité pour mon site depuis quelques heures. Ensuite j'ai envie de revenir à une version antérieur de mon site. Si je fait un `git checkout MON_TAG ou MON-SHAP-1` je risque de perdre mon travail sur la fonctionnalité que je suis entrain de développer pendant qq temps et git ne va pas être content et il ne va pas l'accepter.
+
+Dans ce cas on peut utiliser git `git stash` pour garder dans un coin les modifications avec:
+- git stash save " mon message " : pour save les modif non encore indexé
+- git stash list : pour lister les stash
+- git stash show index_du_stash : pour afficher les modif du stash
+
+ A partir de maintenant je peut faire `git checkout MON_TAG ou MON-SHAP-1`. Et si j'ai finit je reviens sur la branch sur lequel j'étais entrain de dev la fonctionnalité avec `git checkout ma_branch`. Enfin pour restaure le sauvegarde de la modif fait avec la cmd `git stash save " mon message "` j'utilise la commande :
+ - git stash pop  index_du_stash
+
+ ### Faire un merge de fichier
+ Comment fusionner deux version d'un même fichier ?
+
+ supposons on travaille sur un fichier xxx.txt dans deux repos différents. Le user du repos un a déja finit son travail sur le fichier xxx.txt et la pousser sur le repos distant. Ensuite au moment de faire un pull git nous indique qu'il y un conflit, Dans ce cas il faut faire dans l'ordre suivant:
+ - git stash
+ - git pull
+ - git  pull origin main
+ - git stash pop : c'est ici que git va nou signaler les conflit qu'il faudra résoudre manuellement 
+ - git status voir si par hasard tout est en ordre et qu'on a pas indexer par hasard d'autre fichier que l'on veut pas pousser
+ 
+ A partir de la on peut ajouter et pousser nos modif en tout tranquillité
+
+  ### Faire un merge de commit
+  
 
 
 ANNULER UN COMMIT:
